@@ -88,32 +88,35 @@ let infoNueva = {
     price: 2000,
 };
 
+// SERVIDOR
+
 const PORT = process.env.PORT || 8080;
 
 const app = express();
 
 app.get("/", (req, res) => {
-    res.send("Inicio");
-});
-app.get("/login", (req, res) => {
-    res.send("Página de Registro");
+    res.send(
+        `<h1>Estás en Home, ingresa /productos ó /productoRandom</h1>`
+    );
 });
 
 app.get("/productos", async (req, res) => {
     const productos = await contenedor.getAll().then((res) => res);
     res.send(productos);
 });
-app.get("/productorandom", async (req, res) => {
+
+app.get("/productoRandom", async (req, res) => {
     const productos = await contenedor.getAll();
     const random = Math.floor(Math.random() * productos.length);
     res.send(productos[random]);
 });
 
 // PAGE NOT FOUND
+
 app.get("/*", (req, res) => {
     const statusApp = 404;
     res.send(
-        `<h1 style="color: red">Página no encontrada Status: ${statusApp}</h1>`
+        `<h1 style="color: red">Página no encontrada! Status: ${statusApp}</h1>`
     );
 });
 
